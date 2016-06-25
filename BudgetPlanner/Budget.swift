@@ -11,6 +11,5 @@ import Foundation
 class Budget{
     var title = ""
     var cost = 0.0
-    var defaultTime = NSDate()
-    var time = 00.00
+    var time = ""
 }

@@ -11,36 +11,63 @@ import UIKit
 class ViewController: UIViewController {
     @IBOutlet weak var titleField: UITextField!
     @IBOutlet weak var costField: UITextField!
-    @IBOutlet weak var dateField: UITextField!
-    @IBOutlet weak var remainingBudgetField: UITextField!
     @IBOutlet weak var currentBudgetField: UITextField!
+    @IBOutlet weak var datePicker: UIDatePicker!
     
-    var budget = Budget()
+    var budgets = [Budget]()
+    var dateLabel: String!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        
+        datePicker.addTarget(self, action: #selector(ViewController.datePickerChanged(_:)), forControlEvents: UIControlEvents.ValueChanged)
+    }
+    
+    func datePickerChanged(datePicker:UIDatePicker) {
+        let dateFormatter = NSDateFormatter()
+        
+        dateFormatter.dateStyle = NSDateFormatterStyle.ShortStyle
+        
+        let strDate = dateFormatter.stringFromDate(datePicker.date)
+        dateLabel = strDate
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        let historyTableViewController = segue.destinationViewController as! HistoryTableViewController
+        if segue.identifier == "History"{
+            historyTableViewController.budgetList = budgets
+        }
+    }
 
     
     @IBAction func addMoney(sender: AnyObject) {
-        var newBudget: Double! = 0.0
+        var newBudget: Double?
+        var addBudget: Double?
+        var currentBudget = Double(self.currentBudgetField.text!)
+        if (currentBudget != nil){
+            currentBudget = Double(self.currentBudgetField.text!)
+        }else{
+            currentBudget = 0.0
+        }
+
         
         let alertController = UIAlertController(title: "Enter in new amount", message:"$$$", preferredStyle: .Alert)
 
-        alertController.addTextFieldWithConfigurationHandler { (amountField) in
+        alertController.addTextFieldWithConfigurationHandler { (amountField: UITextField!) in
             amountField.placeholder = "Amount"
             amountField.keyboardType = .DecimalPad
-            //newBudget = NSString(string: alertController.textFields![0]).doubleValue
         }
         
         let addAction = UIAlertAction(title: "Add", style: .Default){ (action) in
-          self.currentBudgetField.text = String(format: "%.2f", newBudget)
+            addBudget = Double((alertController.textFields?.first)!.text!)
+            newBudget = currentBudget! + addBudget!
+            self.currentBudgetField.text = String(format: "%.2f", newBudget!)
         }
         
         alertController.addAction(addAction)
@@ -57,26 +84,33 @@ class ViewController: UIViewController {
  
     @IBAction func addSpending(sender: AnyObject) {
         guard let title = Optional(titleField.text!) else{
-            print("You didnt enter in a title!")
+            let alertController = UIAlertController(title: titleField.text, message: "You didnt enter in a title!", preferredStyle: .Alert)
+            let closeAction = UIAlertAction(title: "Close", style: .Default){ (action) in
+            }
+            alertController.addAction(closeAction)
+            
+            self.presentViewController(alertController, animated: true){
+            }
             
             titleField.text = ""
             costField.text = ""
-            dateField.text = ""
-            remainingBudgetField.text = ""
             currentBudgetField.text = ""
             
             return
         }
         
         guard let costAmount = Double(costField.text!) else{
-            print("You didn't enter a cost!")
+            let alertController = UIAlertController(title: costField.text, message: "You didn't enter in a cost!", preferredStyle: .Alert)
+            let closeAction = UIAlertAction(title: "Close", style: .Default){ (action) in
+            }
+            alertController.addAction(closeAction)
+            
+            self.presentViewController(alertController, animated: true){
+            }
             
             titleField.text = ""
             costField.text = ""
-            dateField.text = ""
-            remainingBudgetField.text = ""
             currentBudgetField.text = ""
-
             
             return
         }
@@ -84,24 +118,24 @@ class ViewController: UIViewController {
         //Calculate cost
         if let currentAmount = Double(currentBudgetField.text!){
             let remainingBudget = currentAmount - costAmount
-            remainingBudgetField.text = String(format: "%.2f", remainingBudget)
+            currentBudgetField.text = String(format: "%.2f", remainingBudget)
         }
         
         
         let alertController = UIAlertController(title: titleField.text, message: "Has been added!", preferredStyle: .Alert)
         let closeAction = UIAlertAction(title: "Close", style: .Default){ (action) in
             //Add to history
-            //budget.title = titleField.text
-            //budget.cost = costFiel
+            let budget = Budget()
+            
+            budget.title = title
+            budget.cost = costAmount
+            budget.time = self.dateLabel
+            self.budgets.append(budget)
         }
         alertController.addAction(closeAction)
         
         self.presentViewController(alertController, animated: true){
         }
-        
-        
-        
-        
     }
     
     
