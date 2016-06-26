@@ -83,7 +83,8 @@ class ViewController: UIViewController {
     }
  
     @IBAction func addSpending(sender: AnyObject) {
-        guard let title = Optional(titleField.text!) else{
+        let title = titleField.text
+        guard (title != "") else{
             let alertController = UIAlertController(title: titleField.text, message: "You didnt enter in a title!", preferredStyle: .Alert)
             let closeAction = UIAlertAction(title: "Close", style: .Default){ (action) in
             }
@@ -127,7 +128,7 @@ class ViewController: UIViewController {
             //Add to history
             let budget = Budget()
             
-            budget.title = title
+            budget.title = title!
             budget.cost = costAmount
             budget.time = self.dateLabel
             self.budgets.append(budget)
