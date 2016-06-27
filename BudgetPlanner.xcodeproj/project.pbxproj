@@ -322,6 +322,7 @@
 				127CA76B1D1C3F8E00E4CA24 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

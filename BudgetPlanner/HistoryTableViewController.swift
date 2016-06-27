@@ -31,14 +31,11 @@ class HistoryTableViewController: UITableViewController{
 
         cell.historyTitleLabel.text = budget.title
         
-        cell.historyCostLabel.text = String(format: "%.2f", budget.cost)
+        cell.historyCostLabel.text = "$" +  String(format: "%.2f", budget.cost)
             
-        cell.historyTimeLabel.text = String(format: "%f", budget.time)
+        cell.historyTimeLabel.text = String(budget.time)
         
         return cell
     }
-    
-    
-    
     
 }
