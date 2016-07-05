@@ -14,6 +14,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var currentBudgetField: UITextField!
     @IBOutlet weak var dateField: UITextField!
     
+    //All the history of spendings
     var budgets = [Budget]()
     var dateLabel: String!
     var newBudget: Double?
