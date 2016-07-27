@@ -55,7 +55,6 @@ class ViewController: UIViewController {
             historyTableViewController.budgetList = budgets
         }
     }
-
     
     @IBAction func addMoney(sender: AnyObject) {
         var addBudget: Double?
