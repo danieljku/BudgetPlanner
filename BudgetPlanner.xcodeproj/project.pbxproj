@@ -130,6 +130,7 @@
 					127CA7561D1C3F8D00E4CA24 = {
 						CreatedOnToolsVersion = 7.3.1;
 						DevelopmentTeam = J7EDPJR4N6;
+						LastSwiftMigration = 0800;
 					};
 				};
 			};
@@ -293,6 +294,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.djku.BudgetPlanner;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
@@ -307,6 +309,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.djku.BudgetPlanner;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};
